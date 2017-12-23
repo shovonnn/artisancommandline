@@ -10,6 +10,7 @@ namespace ArtisanCommandLine.Sample
             app.Name = "HelloWorld";
             app.HelpOption();
             app.BindConvention<QueueProcessorCommand>("queue");
+            app.BindConvention<AdvancedQueueProcessorCommand>("advanced-queue");
             app.Execute(args);
         }
     }
