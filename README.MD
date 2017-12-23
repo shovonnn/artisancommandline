@@ -46,6 +46,7 @@ internal class Program
     {
         var app = new CommandLineApplication();
         app.Name = "HelloWorld";
+        app.HelpOption();
         app.BindConvention<QueueProcessorCommand>("queue");
         app.Execute(args);
     }
