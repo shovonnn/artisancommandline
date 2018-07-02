@@ -137,9 +137,10 @@ namespace ArtisanCommandLine
                 }
                 var res = methodInfo.Invoke(obj, handlerParams.ToArray());
 
-                if (res.GetType() == typeof(Task<int>))
+                if (res is Task task)
                 {
-                    var task = (Task<int>)res;
+                    if(task.Exception!=null)
+                        throw task.Exception;
                     System.Console.CancelKeyPress += (sender, e) =>
                     {
                         cts?.Cancel();
@@ -151,7 +152,7 @@ namespace ArtisanCommandLine
 						Task.WaitAll(new[] { task }, 10000);
                     };
                     Task.WaitAll(task);
-                    return task.Result;
+                    return (int)(task.GetType().GetProperty("Result").GetValue(task));
                 }
                 else
                     return (int)res;
